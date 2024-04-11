@@ -7,14 +7,24 @@ class TransactionAnalyzer {
         this.transactions = transactionsArray;
     }
 
+    /**
+     * @param {*} transaction 
+     * @returns {object} Добавляет новую транзакцию
+     */
     addTransactions(transaction){
         this.transactions.push(transaction);
     }
 
+    /**
+     * @returns {object} Возвращает все транзакции из массива
+     */
     getAllTransactions(){
         return this.transactions;
     }
 
+    /**
+     * @returns Добавляет функцию string к каждой транзакции
+     */
     addToAllString() {
         this.transactions.forEach((item) => {
             if(!('string' in item)){
@@ -23,6 +33,11 @@ class TransactionAnalyzer {
         })
     }
 
+    /**
+     * 
+     * @param {*} type 
+     * @returns Возвращает уникальные транзакции заданного типа из массива
+     */
     getUniqueTransactionType(type){
        const uniqueSet = new Set();
 
@@ -34,12 +49,21 @@ class TransactionAnalyzer {
        return Array.from(uniqueSet);
     }
 
+    /**
+     * @returns Возвращает общую сумму всех транзакций.
+     */
     calculateTotalAmount(){
         return this.transactions.reduce((acc,val) => {
             return acc + val.transaction_amount;
         }, 0);
     }
 
+    /**
+     * @param {*} year 
+     * @param {*} month 
+     * @param {*} day 
+     * @returns Возвращает общую сумму транзакций за указанную дату
+     */
     calculateTotalAmountByDate(year, month, day) {
         return this.transactions.reduce((acc, val) => {
             const date = new Date();
@@ -61,10 +85,19 @@ class TransactionAnalyzer {
         }, 0);
     }
 
+    /**
+     * @param {*} type 
+     * @returns Возвращает первую транзакцию заданного типа из массива
+     */
     getTransactionByType(type){
         return this.transactions.find(item => item.transaction_type == type) || {};
     }
 
+    /**
+     * @param {*} startDate 
+     * @param {*} endDate 
+     * @returns Возвращает транзакции, совершенные в указанном диапазоне дат
+     */
     getTransactionsInDateRange(startDate, endDate) {
         return this.transactions.filter(transaction => {
             const transactionDate = new Date(transaction.transaction_date);
@@ -72,6 +105,10 @@ class TransactionAnalyzer {
         });
     }
 
+    /**
+     * @param {*} merchantName 
+     * @returns Возвращает транзакции, совершенные с указанным продавцом
+     */
     getTransactionsByMerchant(merchantName){
         return this.transactions.reduce((acc, val) => {
             if(val.merchant_name == merchantName){
@@ -81,10 +118,18 @@ class TransactionAnalyzer {
         }, [])
     }
 
+    /**
+     * @returns Возвращает среднюю сумму транзакции
+     */
     calculateAverageTransactionAmount() {
         return this.calculateTotalAmount() / this.transactions.length;
     }
 
+    /**
+     * @param {*} minAmount 
+     * @param {*} maxAmount 
+     * @returns Возвращает транзакции в заданном диапазоне суммы
+     */
     getTransactionsByAmountRange(minAmount, maxAmount){
         return this.transactions.reduce((acc, val) => {
             if(val.transaction_amount >= minAmount && val.transaction_amount <= maxAmount){
@@ -94,6 +139,9 @@ class TransactionAnalyzer {
         }, [])
     }
 
+    /**
+     * @returns Возвращает общую сумму транзакций с типом "debit"
+     */
     calculateTotalDebitAmount(){
         return this.transactions.reduce((acc, val) => {
             if(val.transaction_type == 'debit'){
@@ -103,6 +151,10 @@ class TransactionAnalyzer {
         }, 0)
     }
 
+    /**
+     * @param {*} arr 
+     * @returns Возвращает наиболее часто встречающийся месяц для транзакций
+     */
     findMostTransactionsMonth(arr){
         const monthCount = {};
         if(arr == undefined){
@@ -137,10 +189,16 @@ class TransactionAnalyzer {
         return mostTransactionsMonth.length == 1 ? mostTransactionsMonth[0] : mostTransactionsMonth;
     }
 
+    /**
+     * @returns Возвращает наиболее часто встречающийся месяц для транзакций типа "debit"
+     */
     findMostDebitTransactionMonth(){
         return this.findMostTransactionsMonth(this.transactions.filter(item => item.transaction_type == 'debit'));
     }
 
+    /**
+     * @returns Возвращает тип транзакции (debit, credit, или equal), которых больше всего
+     */
     mostTransactionTypes(){
         const debitLength = this.transactions.filter(item => item.transaction_type == 'debit').length;
         const creditLength = this.transactions.filter(item => item.transaction_type == 'credit').length;
@@ -152,16 +210,27 @@ class TransactionAnalyzer {
         }
     }
 
+    /**
+     * @param {*} date 
+     * @returns Возвращает транзакции, совершенные до указанной даты
+     */
     getTransactionsBeforeDate(date){
         return this.transactions.filter(item => {
             return new Date(item.transaction_date) < date;
         })
     }
 
+    /**
+     * @param {*} id 
+     * @returns Возвращает транзакцию с указанным идентификатором
+     */
     findTransactionById(id){
         return this.transactions.find(item => item.transaction_id == id) || {};
     }
 
+    /**
+     * @returns Возвращает массив описаний всех транзакций
+     */
     mapTransactionDescriptions(){
         return this.transactions.map(item => {
             return item.transaction_description;
@@ -192,6 +261,3 @@ analyzer.addToAllString();
 // console.log(analyzer.getTransactionsBeforeDate(new Date('2019-01-06')))
 // console.log(analyzer.findTransactionById(26))
 // console.log(analyzer.mapTransactionDescriptions());
-
-
-
