@@ -23,7 +23,7 @@ class TransactionAnalyzer {
     }
 
     /**
-     * @returns Добавляет функцию string к каждой транзакции
+     *  Добавляет функцию string к каждой транзакции
      */
     addToAllString() {
         this.transactions.forEach((item) => {
@@ -34,9 +34,8 @@ class TransactionAnalyzer {
     }
 
     /**
-     * 
      * @param {*} type 
-     * @returns Возвращает уникальные транзакции заданного типа из массива
+     * @returns уникальные транзакции заданного типа из массива
      */
     getUniqueTransactionType(type){
        const uniqueSet = new Set();
@@ -50,7 +49,7 @@ class TransactionAnalyzer {
     }
 
     /**
-     * @returns Возвращает общую сумму всех транзакций.
+     * @returns общую сумму всех транзакций.
      */
     calculateTotalAmount(){
         return this.transactions.reduce((acc,val) => {
@@ -62,7 +61,7 @@ class TransactionAnalyzer {
      * @param {*} year 
      * @param {*} month 
      * @param {*} day 
-     * @returns Возвращает общую сумму транзакций за указанную дату
+     * @returns общую сумму транзакций за указанную дату
      */
     calculateTotalAmountByDate(year, month, day) {
         return this.transactions.reduce((acc, val) => {
@@ -87,7 +86,7 @@ class TransactionAnalyzer {
 
     /**
      * @param {*} type 
-     * @returns Возвращает первую транзакцию заданного типа из массива
+     * @returns первую транзакцию заданного типа из массива
      */
     getTransactionByType(type){
         return this.transactions.find(item => item.transaction_type == type) || {};
@@ -96,7 +95,7 @@ class TransactionAnalyzer {
     /**
      * @param {*} startDate 
      * @param {*} endDate 
-     * @returns Возвращает транзакции, совершенные в указанном диапазоне дат
+     * @returns транзакции, совершенные в указанном диапазоне дат
      */
     getTransactionsInDateRange(startDate, endDate) {
         return this.transactions.filter(transaction => {
@@ -107,7 +106,7 @@ class TransactionAnalyzer {
 
     /**
      * @param {*} merchantName 
-     * @returns Возвращает транзакции, совершенные с указанным продавцом
+     * @returns транзакции, совершенные с указанным продавцом
      */
     getTransactionsByMerchant(merchantName){
         return this.transactions.reduce((acc, val) => {
@@ -119,7 +118,7 @@ class TransactionAnalyzer {
     }
 
     /**
-     * @returns Возвращает среднюю сумму транзакции
+     * @returns среднюю сумму транзакции
      */
     calculateAverageTransactionAmount() {
         return this.calculateTotalAmount() / this.transactions.length;
@@ -128,7 +127,7 @@ class TransactionAnalyzer {
     /**
      * @param {*} minAmount 
      * @param {*} maxAmount 
-     * @returns Возвращает транзакции в заданном диапазоне суммы
+     * @returns транзакции в заданном диапазоне суммы
      */
     getTransactionsByAmountRange(minAmount, maxAmount){
         return this.transactions.reduce((acc, val) => {
@@ -140,7 +139,7 @@ class TransactionAnalyzer {
     }
 
     /**
-     * @returns Возвращает общую сумму транзакций с типом "debit"
+     * @returns общую сумму транзакций с типом "debit"
      */
     calculateTotalDebitAmount(){
         return this.transactions.reduce((acc, val) => {
@@ -153,7 +152,7 @@ class TransactionAnalyzer {
 
     /**
      * @param {*} arr 
-     * @returns Возвращает наиболее часто встречающийся месяц для транзакций
+     * @returns наиболее часто встречающийся месяц для транзакций
      */
     findMostTransactionsMonth(arr){
         const monthCount = {};
@@ -190,14 +189,14 @@ class TransactionAnalyzer {
     }
 
     /**
-     * @returns Возвращает наиболее часто встречающийся месяц для транзакций типа "debit"
+     * @returns наиболее часто встречающийся месяц для транзакций типа "debit"
      */
     findMostDebitTransactionMonth(){
         return this.findMostTransactionsMonth(this.transactions.filter(item => item.transaction_type == 'debit'));
     }
 
     /**
-     * @returns Возвращает тип транзакции (debit, credit, или equal), которых больше всего
+     * @returns тип транзакции (debit, credit, или equal), которых больше всего
      */
     mostTransactionTypes(){
         const debitLength = this.transactions.filter(item => item.transaction_type == 'debit').length;
@@ -246,7 +245,7 @@ jsonData = JSON.parse(data);
 const analyzer = new TransactionAnalyzer(jsonData);
 analyzer.addToAllString();
 
-// console.log(analyzer.getUniqueTransactionType('debit'));
+console.log(analyzer.getUniqueTransactionType('debit'));
 // console.log(analyzer.calculateTotalAmount());
 // console.log(analyzer.calculateTotalAmountByDate(2019, 4, 30));
 // console.log(analyzer.getTransactionByType('credit'));
